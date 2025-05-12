@@ -1,51 +1,48 @@
-# Análisis de Churn para Interconnect Telecomunicaciones
+# Churn Prediction Project – Interconnect
 
-## Descripción
+Este proyecto aborda el problema de predicción de cancelación de clientes (`churn`) en una empresa de telecomunicaciones, con el objetivo de anticipar bajas y permitir campañas de retención más efectivas.
 
-Este proyecto implementa un análisis completo de predicción de churn (abandono de clientes) para Interconnect, una empresa de telecomunicaciones. Siguiendo la metodología CRISP-DM, se desarrollaron modelos de machine learning para identificar clientes con probabilidad de abandonar los servicios y proponer estrategias de retención optimizadas.
+## 📂 Datos Utilizados
 
-## Estructura del Proyecto
+Se trabajó con cuatro fuentes de datos:
 
-- **notebooks/**: Contiene el notebook principal del análisis
-  - `Salgado_Ronald_churn.ipynb`: Notebook principal con el análisis completo
-- **data/**: Directorio con los datos utilizados (no incluido en el repositorio)
-  - `contract.csv`: Información sobre los contratos de clientes
-  - `personal.csv`: Datos personales de los clientes
-  - `internet.csv`: Detalles de servicios de internet
-  - `phone.csv`: Información de servicios telefónicos
-  - `processed_data.pkl`: Datos procesados para modelado
+- `contract.csv`: información contractual (7043 registros)
+- `personal.csv`: datos demográficos (7043 registros)
+- `internet.csv`: servicios de internet (5517 registros)
+- `phone.csv`: servicios telefónicos (6361 registros)
 
-## Metodología CRISP-DM
+Estas fuentes se integraron en un único dataset unificado con 7043 clientes únicos.
 
-El proyecto sigue las seis fases de la metodología CRISP-DM:
+## 🧠 Fase de Modelado
 
-1. **Comprensión del Negocio**: Definición de objetivos y KPIs
-2. **Comprensión de los Datos**: Exploración de fuentes de datos y distribuciones
-3. **Preparación de los Datos**: Limpieza, transformación y creación de features
-4. **Modelado**: Implementación de modelos de predicción (Regresión Logística, Random Forest, XGBoost)
-5. **Evaluación**: Comparación de modelos según AUC-ROC y Recall
-6. **Despliegue**: Plan de integración, monitoreo y estrategias de retención
+Se derivaron nuevas variables (como `tenure`, `HasAddOns`, `ValuePerService`) y se prepararon los datos para modelos supervisados. La variable objetivo `Churn` fue generada a partir de la fecha de finalización del contrato (`EndDate`).
 
-## Resultados Clave
+Se entrenaron tres modelos:
 
-- Se implementaron tres modelos supervisados con diferentes enfoques algorítmicos
-- Se logró un rendimiento de AUC-ROC superior a 0.85 y Recall superior a 80%
-- Se desarrolló una estrategia de descuentos segmentada por valor de cliente y probabilidad de abandono
+- ✅ **Regresión Logística**
+- ✅ **Random Forest**
+- ✅ **XGBoost**
 
-## Requisitos
+Todos alcanzaron:
 
-- Python 3.8+
-- Pandas, NumPy, Scikit-learn
-- Matplotlib, Seaborn
-- XGBoost
-- Jupyter Notebook
+- AUC-ROC = 1.0000  
+- Recall = 100.0%  
+- Cumplimiento de los KPIs definidos por el negocio
 
-## Uso
+## ⚠️ Observaciones
 
-1. Clone este repositorio
-2. Coloque los archivos de datos en la carpeta `data/`
-3. Ejecute el notebook `Salgado_Ronald_churn.ipynb` para reproducir el análisis completo
+Los resultados muestran señales claras de **overfitting**, probablemente por:
 
-## Autor
+- Datos limpios y poco ruidosos
+- Muchas variables redundantes o con alta correlación
+- Posible fuga de información
 
-Ronald Salgado - Universidad San Francisco de Quito
+### 🔧 Posibles mejoras
+
+- Validación cruzada más estricta  
+- Reducción de dimensionalidad o selección de variables  
+- Revisión de posibles variables con leakage (`EndDate`)
+
+## 📈 Objetivo cumplido
+
+El proyecto logró construir un modelo funcional de clasificación de churn que cumple con los requerimientos del negocio. Se recomienda fortalecer la robustez y generalización en futuras versiones.
